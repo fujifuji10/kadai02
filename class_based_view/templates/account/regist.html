@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style='text-align: center;'>
+<form method="POST">
+   {% csrf_token %}
+   <div style='border: blue solid 1px; font-size: 10px; margin: 15px; padding: 15px; border-width: 3px; background-color: lightgreen;'>
+      <h3>ユーザー登録画面です</h3>
+      <h6>記入後は下記ユーザー登録ボタンを押してください</h6>
+      <h6>パスワードは8文字以上で入力してください</h6>
+   </div>
+   <hr>
+   <table align='center'>
+      {{ form.as_table }}
+   </table>
+   <br>
+   <input type="submit" value="ユーザ登録">
+   <hr>
+   <a class='navbar-brand' href='{% url 'account:welcome' %}'>welcome画面へ戻る</a>
+</form>
+</div>
+
+{% endblock %}

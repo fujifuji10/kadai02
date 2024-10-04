@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div style='text-align: center;'>
+  <h2>物件新規登録画面です。</h2>
+  <h5>以下のフォームより入力いただき、物件登録ボタンを押してください。</h5>
+  <hr>
+  <a class="navbar-brand" href="{% url 'house:list_house'  %}">物件一覧画面へ戻る</a>
+  <hr>
+  <form method="post">
+  {% csrf_token %}
+    <table align='center'>
+      {{ form.as_table }}
+   </table>
+    <hr>
+    <button type="submit">物件登録</button>
+  </form>
+</div>
+
+<style>
+  /* テーブル全体のスタイル */
+  .form-table {
+    width: 50%;
+    margin: 0 auto;
+  }
+
+  /* 全ての入力フィールド、セレクトボックス、ファイル入力を同じ幅に設定 */
+  input[type="text"],
+  select,
+  input[type="number"],
+  input[type="file"] {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+  }
+
+  /* ファイルアップロードのラベルとフィールドの調整 */
+  input[type="number"],
+  input[type="file"] {
+    text-align: left;
+  }
+</style>
+{% endblock %}

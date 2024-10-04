@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style='text-align: center;'>
+  <h2>{{ housings.name }}の詳細画面です</h2>
+  <h6>下記より口コミの投稿・閲覧いただけます</h6>
+  <hr>
+   {# 物件写真の表示 #}
+  {% if object.building_picture %}
+    <div>
+      <h4>物件写真</h4>
+      <img width='305px' height='320px' src="{{ object.building_picture.url }}" alt="物件写真">
+    </div>
+  {% else %}
+    <p>物件写真は登録されていません。</p>
+  {% endif %}
+
+  {# 間取り図の表示 #}
+  {% if object.floor_plan %}
+    <div>
+      <h4>間取り図</h4>
+      <img width='305px' height='320px' src="{{ object.floor_plan.url }}" alt="間取り図">
+    </div>
+  {% else %}
+    <p>間取り図は登録されていません。</p>
+  {% endif %}
+  <div>
+    <p>物件名: {{ object.name }}</p>
+    <p>郵便番号: {{ object.zip_code }}</p>
+    <p>住所: {{ object.address }}</p>
+    <p>最寄駅からの距離: {{ object.distance }}</p>
+    <p>家賃: {{ object.price }}円</p>
+    <p>間取り: {{ object.floor }}</p>
+    <p>物件の種類: {{ object.house_kind }}</p>
+    <p>築年数: {{ object.construction }}年</p>
+    <p>階数: {{ object.floor_number }}階</p>
+  </div>
+  <hr>
+  <table class="table table-striped table-bordered">
+  <tbody>
+    <td><a href='{% url 'account:list_comment' object.id %}'>口コミ一覧ページへ</a></td>
+    <td><a href='{% url 'house:list_house' %}'>物件一覧に戻る</a></td>
+  </tbody>
+  </table>
+</div>
+{% endblock %}

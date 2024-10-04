@@ -1,0 +1,9 @@
+<form method='POST'>
+{% csrf_token %}
+<div style='text-align: center;'>
+  <p>この口コミを削除してよろしいでしょうか？</p>
+  <input type='submit' value='削除する'>
+  </form>
+  <hr>
+  <a href='{% url 'account:list_comment' object.id %}'>コメントリストに戻る</a>
+</div>

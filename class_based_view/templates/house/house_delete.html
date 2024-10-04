@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<form method='POST'>
+{% csrf_token %}
+<div style='text-align: center;'>
+  <p>{{ object.name }}を削除してよろしいでしょうか？</p>
+  <input type='submit' value='削除する'>
+  </form>
+  <hr>
+  <a class="navbar-brand" href="{% url 'house:list_house'  %}">物件一覧画面へ戻る</a>
+</div>
+{% endblock %}

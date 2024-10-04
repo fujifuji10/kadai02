@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style='text-align: center;'>
+ 
+  <form method='POST' enctype='multipart/form-data'>
+    {% csrf_token %}
+    <table align='center'>
+      {{ form.as_table }}
+    </table>
+
+    {% if form.errors %}
+      <div style="color: red;">
+        <ul>
+          {% for field, errors in form.errors.items %}
+            <li>{{ field }}: {{ errors|striptags }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <input type='submit' value='更新'>
+  </form>
+  <hr>
+  <a class="navbar-brand" href="{% url 'house:list_house'  %}">物件一覧画面へ戻る</a>
+<div>
+
+<style>
+  /* テーブル全体のスタイル */
+  .form-table {
+    width: 50%;
+    margin: 0 auto;
+  }
+
+  /* 全ての入力フィールドを同じ幅に設定 */
+  input[type="text"],
+  select,
+  input[type="number"],
+  input[type="file"] {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+  }
+
+  /* ファイルアップロードのラベルとフィールドの調整 */
+  input[type="number"],
+  input[type="file"] {
+    text-align: left;
+  }
+</style>
+{% endblock %}

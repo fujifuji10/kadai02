@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style='text-align: center;'>
+  <p><a href='{% url 'account:home' %}'>ホーム画面へ戻る</a></p>
+  <hr>
+  {% if messages %}
+  {% for message in messages %}
+    {{message.message}}
+  {% endfor %}
+  {% endif %}
+
+  <form method='POST'>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="errorlist">
+        {{ form.non_field_errors|join:", " }}  <!-- エラーをカンマ区切りで表示 -->
+      </div>
+    {% endif %}
+
+  <table align='center'>
+     {{ form.as_table }}
+  </table>
+  <input type='submit' value='更新'>
+  </form>
+</div>
+
+<style>
+  /* テーブル全体のスタイル */
+  .form-table {
+    width: 50%;
+    margin: 0 auto;
+  }
+
+  /* 全ての入力フィールドを同じ幅に設定 */
+  input[type="text"],
+  select,
+  input[type="number"],
+  input[type="file"] {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+  }
+
+  /* ファイルアップロードのラベルとフィールドの調整 */
+  input[type="number"],
+  input[type="file"] {
+    text-align: left;
+  }
+</style>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style='text-align: center;'>
+  <h2>口コミ更新画面です</h2>
+  <h5>入力後、下記の更新ボタンを押してください</h5>
+  <form method='POST' enctype='multipart/form-data'>
+    {% csrf_token %}
+    <table align='center'>
+      {{ form.as_table }}
+   </table>
+    <input type='submit' value='更新'>
+  </form>
+  <hr>
+  <a href='{% url 'account:list_comment' user.id %}'>コメントリストに戻る</a>
+</div>
+{% endblock %}

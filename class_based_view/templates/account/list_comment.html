@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style='text-align: center;'>
+  <h1>口コミ一覧ページです</h1>
+  {% if user.is_active %}
+  <p><a href='{% url 'account:add_comment' %}'>口コミ新規登録</a></p>
+  <hr>
+  <a href='{% url 'account:home' %}'>ホーム画面へ戻る</a>
+  <a href='{% url 'house:list_house' %}'>物件一覧へ戻る</a>
+  {% endif %}
+  <hr>
+  <table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+        <th>ユーザー名</th>
+        <th>コメント</th>
+        <th>投稿日</th>
+        <th>更新日</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for object in object_list %}
+    <tr>
+      <td>{{ object.username }}</td>
+      <td>{{ object.comment }}</td>
+      <td>{{ object.created_at }}</td>
+      <td>{{ object.updated_at }}</td>
+      {% if object.user.id == user.id %}
+      <td><a href='{% url 'account:update_comment' object.id %}'>編集</a></td>
+      <td><a href='{% url 'account:delete_comment' object.id %}'>削除</a></td>
+      {% endif %}
+    </tr>
+  {% endfor %}
+  </tbody>
+</div>
+{% endblock %}

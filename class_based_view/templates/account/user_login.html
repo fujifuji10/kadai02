@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style='text-align: center;'>
+   <h1>賃貸住宅サイトへのログイン画面です</h1>
+   <h5>下記よりログイン、もしくはユーザー登録の上、ログインいただけます。</h5>
+   <form method="POST">
+      {% csrf_token %}
+      <table align='center'>
+       {{ form.as_table }}
+      </table>
+      <input type="hidden" name="next" value="{{ request.GET.next }}">
+      <input type="submit" value="ログイン">
+   <hr>
+   <a class="navbar-brand" href="{% url 'account:regist' %}">ユーザー登録</a>
+   <a class="navbar-brand" href="{% url 'account:welcome' %}">welcome画面へ戻る</a>
+   </form>
+</div>
+{% endblock %}

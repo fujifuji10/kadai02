@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style='text-align: center;'>
+  <div style='border: blue solid 1px; font-size: 10px; margin: 15px; padding: 15px; border-width: 3px; background-color: lightgreen;'>
+  <h1>賃貸住宅サイトにようこそ！</h1>
+  <hr>
+  <table>
+  <table class='table table-striped table-bordered'>
+    <thead>
+      <tr>
+        <h5>各種メニューの説明</h5>
+      </tr>
+      <tr>
+        <th><a class="navbar-brand" href='{% url 'account:user_login' %}'>ログイン</a></th>
+        <th><a class="navbar-brand" href='{% url 'account:regist' %}'>ユーザー登録</a></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ユーザー登録完了後はログインボタンよりログインいただけます</td>
+        <td>ユーザー未登録の方はまずはユーザー登録ボタンよりご登録ください</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}

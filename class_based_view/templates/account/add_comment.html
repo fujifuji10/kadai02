@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<div style='text-align: center;'>
+  <h2>口コミの新規投稿画面です。</h2>
+  <h5>以下のフォームより入力いただき、新規登録ボタンを押してください。</h5>
+  <hr>
+  <form method="post">
+  {% csrf_token %}
+    <table align="center">
+      {{ form.as_table }}
+    </table>
+    <hr>
+    <button type="submit">新規登録</button>
+    <hr>
+    <a href='{% url 'account:list_comment' user.id %}'>コメントリストに戻る</a>
+  </form>
+</div>
+{% endblock %}
+
