@@ -5,10 +5,11 @@ from datetime import datetime, timedelta
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator, RegexValidator
 from django.contrib.auth import authenticate, login
+import re
 
 class RegistForm(forms.ModelForm):
   error_css_class = 'text-danger'
-  username = forms.CharField(label='名前')
+  username = forms.CharField(label='ユーザー名')
   age = forms.IntegerField(label='年齢', min_value=0)
   email = forms.EmailField(label='メールアドレス')
   password = forms.CharField(label='パスワード',validators=[MinLengthValidator(8)],widget=forms.PasswordInput)
@@ -22,7 +23,23 @@ class RegistForm(forms.ModelForm):
       cleaned_data = super().clean()  # 継承元のcleanメソッドを呼び出し、全てのフィールドデータを取得
       password = cleaned_data.get("password")
       confirm_password = cleaned_data.get("confirm_password")
+      
+      def clean_username(self):
+        username = self.cleaned_data.get('username')
 
+    # Noneまたは空文字列を確認
+        if not username:
+            raise ValidationError('ユーザー名を入力してください')
+        
+        if re.search(r'\s', username):
+            raise ValidationError('ユーザー名にスペースキーを使用しないでください')
+
+    # メールアドレスのような形式をチェック
+        if '@' in username:
+            raise ValidationError('ユーザー名にメールアドレスを使用しないでください')
+
+        return username
+    
         # パスワードとパスワード再入力が一致しているかチェック
       if password and confirm_password and password != confirm_password:
           raise ValidationError("パスワードとパスワード再入力が一致しません。")
@@ -76,10 +93,19 @@ class UserUpdateForm(forms.ModelForm):
         
     def clean_username(self):
         username = self.cleaned_data.get('username')
+
+    # Noneまたは空文字列を確認
+        if not username:
+            raise ValidationError('ユーザー名を入力してください')
+
+    # スペースが含まれているか確認
         if ' ' in username:
             raise ValidationError('ユーザー名にスペースキーを使用しないでください')
-        elif '@' in username:
+
+    # メールアドレスのような形式をチェック
+        if '@' in username:
             raise ValidationError('ユーザー名にメールアドレスを使用しないでください')
+
         return username
 
     def clean(self):
