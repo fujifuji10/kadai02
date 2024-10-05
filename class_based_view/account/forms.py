@@ -37,7 +37,7 @@ class UserLoginForm(forms.Form):
   def clean(self):
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
-        user = authenticate(email=email, password=password)
+        user = authenticate(username=email, password=password)
         if user is None:
             raise forms.ValidationError("正しいメールアドレスとパスワードを入力してください。")
         return self.cleaned_data

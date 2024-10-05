@@ -121,18 +121,20 @@ class HouseUpdateView(SuccessMessageMixin, UpdateView):
             updated_house.update_at = datetime.now()  # 更新日時を設定
             updated_house.save()
 
-            # building_picturesのアップロード処理
-            if 'building_pictures' in request.FILES:  # building_picturesがアップロードされている場合
-                for file in request.FILES.getlist('building_pictures'):
-                    # HousingPicturesのインスタンスを作成し、ファイルを保存
-                    HousingPictures.objects.create(housing=self.object, picture=file, picture_type='building_picture')
-
-            # floor_planのアップロード処理
-            if 'floor_plan' in request.FILES:  # floor_planがアップロードされている場合
-                for file in request.FILES.getlist('floor_plan'):
-                    # HousingPicturesのインスタンスを作成し、ファイルを保存
-                    HousingPictures.objects.create(housing=self.object, picture=file, picture_type='floor_plan')
-
+            if 'building_picture' in request.FILES:
+              for file in request.FILES.getlist('building_picture'):
+                HousingPictures.objects.create(
+                  housing=self.object,
+                  picture=file,
+                  picture_type='building'
+              )
+            if 'floor_plan' in request.FILES:
+              for file in request.FILES.getlist('floor_plan'):
+                HousingPictures.objects.create(
+                  housing=self.object,
+                  picture=file,
+                  picture_type='floor'
+              )
             return self.form_valid(form)
         else:
             return self.form_invalid(form)

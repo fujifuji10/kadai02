@@ -221,3 +221,7 @@ SESSION_COOKIE_AGE = 1209600
 from django.core.management.utils import get_random_secret_key
 SECRET_KEY = get_random_secret_key()  
 
+AUTHENTICATION_BACKENDS = [
+    'accounts.custom_backend.EmailBackend',  # 正しいパス
+    'django.contrib.auth.backends.ModelBackend',
+]

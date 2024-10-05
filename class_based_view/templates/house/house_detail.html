@@ -5,24 +5,29 @@
   <h6>下記より口コミの投稿・閲覧いただけます</h6>
   <hr>
    {# 物件写真の表示 #}
-  {% if object.building_picture %}
+{# 物件写真の表示 #}
+{% for picture in housing_pictures %}
+  {% if picture.picture_type == 'building' %}
     <div>
       <h4>物件写真</h4>
-      <img width='305px' height='320px' src="{{ object.building_picture.url }}" alt="物件写真">
+      <img width='305px' height='320px' src="{{ picture.picture.url }}" alt="物件写真">
     </div>
-  {% else %}
-    <p>物件写真は登録されていません。</p>
   {% endif %}
+{% empty %}
+  <p>物件写真は登録されていません。</p>
+{% endfor %}
 
-  {# 間取り図の表示 #}
-  {% if object.floor_plan %}
+{# 間取り図の表示 #}
+{% for picture in housing_pictures %}
+  {% if picture.picture_type == 'floor' %}
     <div>
       <h4>間取り図</h4>
-      <img width='305px' height='320px' src="{{ object.floor_plan.url }}" alt="間取り図">
+      <img width='305px' height='320px' src="{{ picture.picture.url }}" alt="間取り図">
     </div>
-  {% else %}
-    <p>間取り図は登録されていません。</p>
   {% endif %}
+{% empty %}
+  <p>間取り図は登録されていません。</p>
+{% endfor %}
   <div>
     <p>物件名: {{ object.name }}</p>
     <p>郵便番号: {{ object.zip_code }}</p>

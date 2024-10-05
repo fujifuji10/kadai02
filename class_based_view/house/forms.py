@@ -6,6 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.validators import RegexValidator
 import re
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 class HouseAddForm(forms.ModelForm):
     error_css_class = 'text-danger'
@@ -54,12 +55,10 @@ class HouseAddForm(forms.ModelForm):
       name = self.cleaned_data.get('name')
       if not name:
         raise ValidationError('物件名は必須です。')
-      elif '  ' in name:
-        raise ValidationError('物件名にスペースキーを使用しないでください')
-      elif ' ' in name:
-        raise ValidationError('物件名にスペースキーを使用しないでください')
-      elif '@' in name:
-        raise ValidationError('物件名にメールアドレスを使用しないでください')
+      if ' ' in name:
+        raise ValidationError('物件名にスペースを含めることはできません。')
+      if '@' in name:
+        raise ValidationError('物件名に「@」を含めることはできません。')
       return name
 
     # 全体のバリデーション
@@ -81,8 +80,8 @@ class HouseAddForm(forms.ModelForm):
     
     def save(self, *args, **kwargs):
       obj = super(HouseAddForm, self).save(commit=False)
-      obj.create_at = datetime.now()
-      obj.update_at = datetime.now()
+      obj.create_at = timezone.now()
+      obj.update_at = timezone.now()
       obj.save()
 
       if self.cleaned_data['building_picture']:
@@ -183,7 +182,7 @@ class HouseUpdateForm(forms.ModelForm):
       
     def save(self, *args, **kwargs):
         obj = super(HouseUpdateForm, self).save(commit=False)
-        obj.update_at = datetime.now()
+        obj.update_at = timezone.now()
         obj.save()
         return obj
   
@@ -198,8 +197,8 @@ class PictureUploadForm(forms.ModelForm):
   
   def save(self, house=None, *args, **kwargs):
         obj = super(PictureUploadForm, self).save(commit=False)
-        obj.create_at = datetime.now()
-        obj.update_at = datetime.now()
+        obj.create_at = timezone.now()
+        obj.update_at = timezone.now()
         
         if house:
             obj.house = house
@@ -221,8 +220,8 @@ class PictureCreateForm(forms.ModelForm):
   
   def save(self, house=None, *args, **kwargs):
         obj = super(PictureCreateForm, self).save(commit=False)
-        obj.create_at = datetime.now()
-        obj.update_at = datetime.now()
+        obj.create_at = timezone.now()
+        obj.update_at = timezone.now()
         
         if house:
             obj.house = house

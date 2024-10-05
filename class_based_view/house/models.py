@@ -59,20 +59,17 @@ class HousingPictures(models.Model):  # BaseModelではなく、Djangoの標準�
         ordering = ['order']
     
     def __str__(self):
-        if self.house:
-            return self.house.name + ': ' + str(self.order)
+        if self.housing:
+            return self.housing.name + ': ' + str(self.order)
         else:
-            return 'No House Assigned: ' + str(self.order) 
+            return 'No House Assigned: ' + str(self.order)
   
 # 複数画像フィールドに対応するため、delete_pictureの修正
 @receiver(models.signals.post_delete, sender=HousingPictures)
 def delete_picture(sender, instance, **kwargs):
-    # building_picture削除
-    if instance.housing.building_picture and os.path.isfile(instance.housing.building_picture.picture.path):
-        os.remove(instance.housing.building_picture.picture.path)
-        application_logger.info(f'{instance.housing.building_picture.picture.path}を削除しました')
-
-    # floor_plan削除
-    if instance.housing.floor_plan and os.path.isfile(instance.housing.floor_plan.picture.path):
-        os.remove(instance.housing.floor_plan.picture.path)
-        application_logger.info(f'{instance.housing.floor_plan.picture.path}を削除しました')
+    if instance.picture and os.path.isfile(instance.picture.path):
+        try:
+            os.remove(instance.picture.path)
+            application_logger.info(f'{instance.picture.path} を削除しました')
+        except Exception as e:
+            application_logger.error(f'ファイル削除エラー: {e}')

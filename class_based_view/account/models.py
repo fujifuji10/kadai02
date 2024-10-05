@@ -8,6 +8,7 @@ from uuid import uuid4
 from datetime import datetime, timedelta
 from django.contrib.auth.models import UserManager
 from house.models import BaseModel
+from django.utils import timezone
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None):
@@ -50,14 +51,18 @@ class Users(AbstractBaseUser, PermissionsMixin):
     
 class UserActivateTokensManager(models.Manager):
   
-  def activate_user_by_token(self, token): #UserActiveTokenからデータを取り出す際の定義を記載
+  def activate_user_by_token(self, token): 
     user_activate_token = self.filter(
       token=token,
-      expired_at__gte=datetime.now() #期限が現在時刻よりも大きいものだけ取得
-    ).first() #それぞれ上を満たす最初の値のみ取得
-    user = user_activate_token.user
-    user.is_active = True #条件に当てはまったuserはアクティベートを有効化する
-    user.save()
+      expired_at__gte=timezone.now()  # timezone.now() に変更
+    ).first()
+    
+    if user_activate_token:  # トークンが存在するか確認
+      user = user_activate_token.user
+      user.is_active = True
+      user.save()
+      return user  # アクティベートしたユーザーを返す
+    return None  # 無効なトークンの場合は None を返す
     
 class UserActivateTokens(models.Model):
   
