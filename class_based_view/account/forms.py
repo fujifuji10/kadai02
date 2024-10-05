@@ -99,7 +99,7 @@ class UserUpdateForm(forms.ModelForm):
             raise ValidationError('ユーザー名を入力してください')
 
     # スペースが含まれているか確認
-        if ' ' in username:
+        if re.search(r'\s', username):
             raise ValidationError('ユーザー名にスペースキーを使用しないでください')
 
     # メールアドレスのような形式をチェック
